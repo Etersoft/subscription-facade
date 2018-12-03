@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export function unsubscribe (backend: string, fixedMailingId?: number) {
   return async function (req: Request, res: Response) {
-    const code = req.query.code;
+    const code = req.query.code || null;
     const email = req.query.email;
     const mailingId = fixedMailingId || req.query.mailingId;
 
