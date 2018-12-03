@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "lib": ["dom", "es2015", "esnext.asynciterable"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "removeComments": true,
+    "sourceMap": true,
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "target": "es6"
+  },
+  "include": [
+    "src/**/*"
+  ]
+}
