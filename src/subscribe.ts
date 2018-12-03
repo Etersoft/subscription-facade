@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
 import axios from 'axios';
+import { catchPromise } from './catchPromise';
 
 
 export function subscribe (backend: string, fixedMailingId?: number) {
-  return async function (req: Request, res: Response) {
+  return catchPromise(async function (req: Request, res: Response) {
     const code = req.query.code;
     const email = req.query.email;
     const mailingId = fixedMailingId || req.query.mailingId;
@@ -17,5 +18,5 @@ export function subscribe (backend: string, fixedMailingId?: number) {
       email,
       subscribeSuccess: status === 200
     });
-  };
+  });
 }
