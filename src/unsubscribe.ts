@@ -10,13 +10,15 @@ export function unsubscribe (backend: string, fixedMailingId?: number) {
     const mailingId = fixedMailingId || req.query.mailingId;
 
     const url = `${backend}/mailings/${mailingId}/unsubscribe`;
-    const { data, status } = await axios.post(url, JSON.stringify({ code, email }), {
+    const { data: { data }, status } = await axios.post(url, JSON.stringify({ code, email }), {
       validateStatus: () => true
     });
+    const { text } = data;
 
     res.render('unsubscribe', {
       email,
-      unsubscribeSuccess: status === 200
+      text,
+      unsubscribeSuccess: status === 200,
     });
   });
 }

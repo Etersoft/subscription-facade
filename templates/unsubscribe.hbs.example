@@ -1,6 +1,10 @@
 {{#> base title="Отписаться от рассылки" }}
   {{#if unsubscribeSuccess}}
+    {{#if text}}
+      {{{ text }}}
+    {{else}}
     <p>Адрес <b>{{ email }}</b> был исключён из рассылки.</p>
+    {{/if}}
   {{else}}
     <h3>Ошибка</h3>
     <p>
