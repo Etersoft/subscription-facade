@@ -10,13 +10,15 @@ export function subscribe (backend: string, fixedMailingId?: number) {
     const mailingId = fixedMailingId || req.query.mailingId;
 
     const url = `${backend}/mailings/${mailingId}/subscribe`;
-    const { status } = await axios.post(url, JSON.stringify({ code, email }), {
+    const { data: { data }, status } = await axios.post(url, JSON.stringify({ code, email }), {
       validateStatus: () => true
     });
-
+    const { text } = data;
+    
     res.render('subscribe', {
       email,
-      subscribeSuccess: status === 200
+      text,      
+      subscribeSuccess: status === 200,
     });
   });
 }
