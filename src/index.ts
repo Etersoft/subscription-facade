@@ -5,12 +5,17 @@ import { readConfig } from './config';
 async function main () {
   const config = readConfig();
   const app = createApp(config);
-  const port = config.port;
+  const { host, port } = config;
 
   await new Promise<void>((resolve, reject) => {
-    app.listen(port, error => error ? reject(error) : resolve());
+    const callback = (error?: Error) => error ? reject(error) : resolve();
+    if (host) {
+      app.listen(port, host, callback);
+    } else {
+      app.listen(port, callback);
+    }
   });
-  console.log(`Listening on port ${port}`);
+  console.log(`Listening on ${host || '*'}:${port}`);
 }
 
 main().catch(error => {

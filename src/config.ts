@@ -8,6 +8,8 @@ export interface Config {
   // Если указан, запросы всегда идут к этой рассылке, иначе — к mailingId из запроса
   mailingId: number | null;
   port: number;
+  // Адрес для приёма соединений; не задан — все интерфейсы
+  host?: string;
 }
 
 const ROOT = join(__dirname, '..', '..');

@@ -73,13 +73,16 @@ $ docker run -v $PWD/config.json:/app/config.json -p 8001:8001 subscription-faca
 {
   "backend": "http://192.168.12.34:8000",
   "mailingId": null,
-  "port": 8001
+  "port": 8001,
+  "host": "127.0.0.1"
 }
 ```
 
 - `backend` — адрес API mail-server;
 - `mailingId` — если задан, все запросы идут к этой рассылке;
-- `port` — порт HTTP-сервера.
+- `port` — порт HTTP-сервера;
+- `host` — адрес для приёма соединений (по умолчанию все интерфейсы); за
+  обратным прокси лучше `127.0.0.1`.
 
 ## Шаблоны страниц
 
