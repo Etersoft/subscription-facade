@@ -14,13 +14,10 @@
 
 ## Как запускать
 
-Запустить:
-```
-$ npm install
-```
+Нужен Node.js 22.23 или новее.
 
-Затем:
 ```
+$ npm ci
 $ npm run build
 ```
 
@@ -32,6 +29,9 @@ $ npm run build
 Содержимое других шаблонов подставляется в base, там, где указан `@partial-block`.
 - subscribe.hbs - шаблон для страницы подписки.
 - unsubscribe.hbs - шаблон для страницы отписки.
+
+Шаблоны получают `email`, `text` (текст из настроек рассылки в mail-server, если задан)
+и флаг успеха `subscribeSuccess` / `unsubscribeSuccess`.
 
 Далее, создайте файл `config.json` в корне проекта и укажите там URL для mail-server.
 Также можно указать порт, на котором запускать HTTP-сервер (по умолчанию - 8001) и
@@ -46,5 +46,15 @@ $ npm run build
 
 Можно запускать:
 ```
-$ node dist/index.js
+$ npm start
 ```
+
+Страницы: `/subscribe?mailingId=<id>&email=<email>&code=<code>` и
+`/unsubscribe?mailingId=<id>&email=<email>&code=<code>` (`mailingId` не нужен, если он
+задан в конфигурации; допускаются только числовые идентификаторы).
+
+## Разработка
+
+- `npm test` — сборка и тесты (`node:test`, mail-server подменяется локальным HTTP-сервером);
+- `npm run lint` — ESLint;
+- `npm run watch` и `npm run watch-run` — пересборка и перезапуск при изменениях.
