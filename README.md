@@ -53,6 +53,15 @@ $ npm start
 `/unsubscribe?mailingId=<id>&email=<email>&code=<code>` (`mailingId` не нужен, если он
 задан в конфигурации; допускаются только числовые идентификаторы).
 
+## Docker
+
+```
+$ docker build -t subscription-facade .
+$ docker run -v $PWD/config.json:/app/config.json -p 8001:8001 subscription-facade
+```
+
+Свои шаблоны можно подложить в `/app/templates/*.hbs`, иначе используются `*.hbs.example`.
+
 ## Разработка
 
 - `npm test` — сборка и тесты (`node:test`, mail-server подменяется локальным HTTP-сервером);
