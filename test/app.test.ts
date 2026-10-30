@@ -97,7 +97,7 @@ describe('subscription-facade', function () {
     const page = await get(`${facade}/subscribe?mailingId=12&email=a%40b.ru&code=xyz`);
 
     assert.equal(page.status, 200);
-    assert.match(page.text, /Спасибо!/);
+    assert.match(page.text, /Подписка подтверждена/);
     assert.match(page.text, /a@b\.ru/);
     assert.deepEqual(requests, [{
       body: { code: 'xyz', email: 'a@b.ru' },
@@ -116,7 +116,7 @@ describe('subscription-facade', function () {
   it('should send null code on unsubscribe without code', async function () {
     const facade = await startFacade();
     const page = await get(`${facade}/unsubscribe?mailingId=3&email=a%40b.ru`);
-    assert.match(page.text, /был исключён из рассылки/);
+    assert.match(page.text, /Вы отписались/);
     assert.deepEqual(requests[0].body, { code: null, email: 'a@b.ru' });
     assert.equal(requests[0].url, '/mailings/3/unsubscribe');
   });
@@ -126,7 +126,7 @@ describe('subscription-facade', function () {
     const facade = await startFacade();
     const page = await get(`${facade}/subscribe?mailingId=12&email=a%40b.ru&code=bad`);
     assert.equal(page.status, 200);
-    assert.match(page.text, /Не удалось добавить адрес/);
+    assert.match(page.text, /Не удалось подтвердить подписку/);
   });
 
   it('should use fixed mailingId from config', async function () {
@@ -140,7 +140,7 @@ describe('subscription-facade', function () {
     const page = await get(
       `${facade}/subscribe?mailingId=..%2Fcreate-retry%3F&email=a%40b.ru&code=x`
     );
-    assert.match(page.text, /Не удалось добавить адрес/);
+    assert.match(page.text, /Не удалось подтвердить подписку/);
     assert.deepEqual(requests, []);
   });
 
@@ -159,5 +159,17 @@ describe('subscription-facade', function () {
     const facade = await listen(server);
     const page = await get(`${facade}/subscribe?mailingId=1&email=a%40b.ru&code=x`);
     assert.equal(page.status, 500);
+    assert.match(page.text, /Сервис временно недоступен/);
+  });
+
+  it('should answer plain text 500 without error template', async function () {
+    rmSync(join(templatesDir, 'error.hbs'));
+    const config: Config = { backend: 'http://127.0.0.1:1', mailingId: null, port: 0 };
+    const server = createServer(createApp(config, { templatesDir }));
+    servers.push(server);
+    const facade = await listen(server);
+    const page = await get(`${facade}/subscribe?mailingId=1&email=a%40b.ru&code=x`);
+    assert.equal(page.status, 500);
+    assert.equal(page.text, 'Internal Server Error');
   });
 });

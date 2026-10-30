@@ -5,7 +5,8 @@ type PromiseHandler = (req: Request, res: Response) => Promise<unknown>;
 
 /**
  * Оборачивает express-обработчик, и, в случае возврата им Promise,
- * ловит ошибку и отвечает 500-ым кодом.
+ * ловит ошибку и отвечает 500-ым кодом: страницей из шаблона error,
+ * а если его нет (старые установки) — простым текстом.
  */
 export function catchPromise (handler: PromiseHandler): RequestHandler {
   return async function (req: Request, res: Response) {
@@ -14,7 +15,13 @@ export function catchPromise (handler: PromiseHandler): RequestHandler {
     } catch (err) {
       console.error('Request error: ', err);
       if (!res.headersSent) {
-        res.status(500).type('text').send('Internal Server Error');
+        res.status(500).render('error', (renderError: Error | null, html?: string) => {
+          if (renderError) {
+            res.type('text').send('Internal Server Error');
+          } else {
+            res.send(html);
+          }
+        });
       }
     }
   };

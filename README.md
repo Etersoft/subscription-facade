@@ -91,7 +91,9 @@ $ docker run -v $PWD/config.json:/app/config.json -p 8001:8001 subscription-faca
 - `base.hbs` — общий макет страницы (оформление, стили, скрипты); содержимое
   страниц подставляется на место `{{> @partial-block }}`;
 - `subscribe.hbs` — результат подписки;
-- `unsubscribe.hbs` — результат отписки.
+- `unsubscribe.hbs` — результат отписки;
+- `error.hbs` — страница, когда mail-server недоступен (ответ 500). Если шаблона
+  нет, отдаётся текст «Internal Server Error».
 
 Шаблоны получают:
 
