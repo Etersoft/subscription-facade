@@ -3,8 +3,13 @@
   <head>
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <meta name='color-scheme' content='light dark'>
     <title>{{ title }}</title>
     <style>
+      :root {
+        color-scheme: light dark;
+      }
+
       body {
         background: #fff;
         color: #1a1a1a;
@@ -41,6 +46,22 @@
 
       li + li {
         margin-top: 6px;
+      }
+
+      /* Тёмная тема по настройке браузера */
+      @media (prefers-color-scheme: dark) {
+        body {
+          background: #1b1b1d;
+          color: #e6e6e6;
+        }
+
+        .muted {
+          color: #a6a6a6;
+        }
+
+        a {
+          color: #6cb2ff;
+        }
       }
     </style>
   </head>
