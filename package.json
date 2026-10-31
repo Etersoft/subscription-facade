@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "express": "^5.1.0",
-    "express-handlebars": "^9.0.2"
+    "express-handlebars": "^9.0.4"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
